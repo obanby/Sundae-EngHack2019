@@ -10,8 +10,7 @@ const happyPath = [
 const sadPath = [
   "You seem that you are upset, would you like to talk about it?",
   "Is there anything else that upseted you today?",
-  "I know you love music, here is an event near you",
-  "Scorpions: $20 somewhere"
+  "Noted, here are some recomendations"
 ]
 
 function sentimentScore(sentimentScore) {
@@ -41,7 +40,10 @@ sentiment.on("sadPath", (pNum, smsCount)=> {
   if (smsCount > sadPath.length) return;
   if (smsCount == sadPath.length - 2) {
     sms.send(sadPath[smsCount], pNum);
-    sms.send(sadPath[sadPath.length - 1], pNum);
+    // Get bunch of api values and send them sequentially
+    sms.send("Here is recomendation for music", pNum);
+    sms.send("Here is a sport related one", pNum);
+    sms.send("blah", pNum);
     return;
   }
   async function send() {
