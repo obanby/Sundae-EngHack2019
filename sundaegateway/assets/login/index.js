@@ -12,8 +12,8 @@ login = async () => {
   //   video.loadPixels();
   //   const image64 = video.canvas.toDataURL();
   const data = {
-    name: 1,
     phone: 2,
+    password: 3,
   }
 
   const options = {

@@ -28,8 +28,17 @@ api.post("/sms", (req, res) => {
 });
 
 api.post('/login', (req, res) => {
-  User.findUserbyPhone('519991990', (user) => {
-    res.json(user);
+  User.findUserbyPhone(req.body.phone, (user) => {
+    if (user) {
+      if (req.body.password == user.password) {
+        res.json(' login success');
+      } else {
+        res.json('login failed');
+      } 
+    } else {
+      res.end('User Not Found');
+    }
+    
   })
 });
 
