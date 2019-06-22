@@ -58,7 +58,6 @@ api.post('/login', (req, res) => {
           messages,
         })
       })
-
     } else {
       res.end('User Not Found');
     }
@@ -70,6 +69,7 @@ api.post('/register', (req, res) => {
   User.signUpUser(req.body.phone, req.body.name, req.body.location, req.body.password)
   .then(() => {
     console.log('registered');
+    sms.send("Thank you for joining Sundae. Feel free to text us anytime to journal your day or vent :D",req.body.From);
   })
   .catch(err => console.error(err));
 });
