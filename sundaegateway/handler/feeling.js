@@ -2,14 +2,15 @@ const sentiment = require("../events/sentiment");
 const sms = require("../twilio/sms");
 
 const happyPath = [
-  "You seem to be feeling positive today. Whats up?",
+  "You seem to be feeling positive today. Whats up?", "Did you workout today by any chance?", 
+  "What type of food did you have today?",
   "thanks, noted! keep it up!",
   "Here is a quote for you, hope you like it"
 ]
 
 const sadPath = [
   "You seem that you are upset, would you like to talk about it?",
-  "Is there anything else that upseted you today?",
+  "Is there anything else that upseted you today?", 
   "Noted, here are some recomendations"
 ]
 
@@ -40,8 +41,13 @@ sentiment.on("sadPath", (pNum, smsCount)=> {
   if (smsCount > sadPath.length) return;
   if (smsCount == sadPath.length - 2) {
     sms.send(sadPath[smsCount], pNum);
+    //getting recommendation
+    //var meetup = 'https://api.meetup.com/2/open_events.xml?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&key=ABDE12456AB2324445';
+    const https = require("https");
+    https.get("https://api.meetup.com/2/open_events.xml?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&topic=sports&key=ABDE12456AB2324445", (result) => console.log(result));
+    
     // Get bunch of api values and send them sequentially
-    sms.send("Here is recomendation for music", pNum);
+    sms.send("Here is recomendation for music", result.name);
     sms.send("Here is a sport related one", pNum);
     sms.send("blah", pNum);
     return;
