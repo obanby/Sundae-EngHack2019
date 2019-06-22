@@ -10,7 +10,7 @@ api.use(bodyParser.urlencoded({ extended: false }));
 api.use(bodyParser.json());
 
 // Set static files
-api.use(express.static(path.join(__dirname, '../../assets')));
+// api.use(express.static(path.join(__dirname, '../../assets')));
 
 api.get("/health", (req, res) => {
   sms.send("Hi there", process.env.DEFAULT_PHONE_NUMBER);
@@ -41,13 +41,45 @@ api.post('/login', (req, res) => {
   User.findUserbyPhone(req.body.phone)
   .then(user => {
     if (user) {
-      (req.body.password == user.password) ? res.json(' login success') : res.json('login failed');
+      (req.body.password == user.password) ? console.log(' login success') : res.json('login failed');
+      User.getUserMsgs(user.phone)
+      .then((messages) => {
+        res.render('dashboard', {
+          user: user,
+          messages,
+        })
+      })
+      
     } else {
       res.end('User Not Found');
     }
   })
   .catch(err => console.error(err));
 });
+
+api.post('/register', (req, res) => {
+  User.signUpUser(req.body.phone, req.body.name, req.body.location, req.body.password)
+  .then(() => {
+    console.log('registered');
+  })
+  .catch(err => console.error(err));
+});
+
+// Welcome Page
+api.get('/', (req, res) => res.render('welcome'));
+
+// Dashboard
+api.get('/dashboard', (req, res) =>
+  res.render('dashboard', {
+    user: req.user
+  })
+);
+
+// Login Page
+api.get('/login', (req, res) => res.render('login'));
+
+// Register Page
+api.get('/register', (req, res) => res.render('register'));
 
 api.get('/data', (req, res, next) => {
   User.getUserMsgs('519991990')

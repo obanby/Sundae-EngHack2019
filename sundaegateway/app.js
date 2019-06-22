@@ -1,4 +1,5 @@
 const express = require("express");
+const expressLayouts = require('express-ejs-layouts');
 const dotenv = require("dotenv");
 
 const isConfigLoaded = dotenv.config();
@@ -11,6 +12,9 @@ const api = require("./api/v1/api");
 // TODO: expose static files  && do your web stuff!
 const app = express();
 
+// EJS
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
 
 app.use("/api/v1", api);
 

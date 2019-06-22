@@ -24,19 +24,26 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 module.exports.signUpUser = (phone, name, location, password, callback) => {
-  firebase.database().ref(`users/user:${phone}`).set({
-    phone: phone,
-    name: name,
-    location: location,
-    password: password,
+  return this.findUserbyPhone(phone).then((user) => {
+    if (!user) {
+      return firebase.database().ref(`users/user:${phone}`).push({
+        phone: phone,
+        name: name,
+        messages: 1,
+        // location: location,
+        password: password,
+      })
+    } else {
+      throw new Error('User exists');
+    }
   })
-  .then(_ => console.log("All gotchi!"))
-  .catch(err => console.error(err));
+    .then(_ => console.log("All gotchi!"))
+    .catch(err => console.error(err));
 }
 
 module.exports.writeUserData = (phone, msg) => {
   // TODO: validate user exeist
-  firebase.database().ref(`users/user:${phone}/message`).child(msg.timeStamp).set({
+  firebase.database().ref(`users/user:${phone}/message`).push({
     text: msg.text,
     timeStamp: msg.timeStamp,
   });
@@ -74,7 +81,7 @@ module.exports.findUserbyPhone = (phone, callback) => {
   });
 }
 
- // test
+// test
 const gotDataforUsers = (data) => {
   // console.log(data.val());
   let users = data.val();
