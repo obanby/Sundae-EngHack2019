@@ -4,10 +4,10 @@ const authToken  = process.env.TWILIO_AUTHTOKEN;
 const client = require("twilio")(accountSid, authToken);
 const MessagingResponse = require("twilio").twiml.MessagingResponse;
 
-async function send(msg) {
+async function send(msg, number) {
   try {
     const msgId  = await client.messages.create({
-        to: ,
+        to:   number,
         from: "+16474902192",
         body: msg
       });
