@@ -44,17 +44,17 @@ sentiment.on("sadPath", (pNum, smsCount)=> {
     //getting recommendation
     //var meetup = 'https://api.meetup.com/2/open_events.xml?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&key=ABDE12456AB2324445';
     const https = require("https");
-    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&topic=sports&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
+    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w&amp;status=upcoming&topic=sports&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
     
     // Get bunch of api values and send them sequentially
     sms.send("Here is recomendation for sports", result.name);
     const https = require("https");
-    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&topic=music&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
+    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w&amp;status=upcoming&topic=music&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
     
     sms.send("Here is a music related one", result.name);
     
     const https = require("https");
-    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w,&amp;status=upcoming&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
+    https.get("https://api.meetup.com/2/open_events.json?zip=m4c1t2&time=-1w,1w&amp;status=upcoming&key=2c1b297d4c4c8d91f68d53f1f16", (result) => console.log(result));
     
     sms.send("Here is a random event that could be fun to cheer you up!", result.name);
     return;
