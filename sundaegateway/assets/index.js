@@ -1,9 +1,9 @@
 const getmsg = async () => {
   const dataURL = '/api/v1/data';
   const response = await fetch(dataURL);
-  const json = await response[0].json();
+  const json = await response.json();
   console.log(json);
-  document.getElementById('msg').textContent = json;
+  document.getElementById('message').textContent = json;
 }
 getmsg();
 
@@ -24,7 +24,7 @@ login = async () => {
     body: JSON.stringify(data),
   }
 
-  const res = await fetch('/store', options);
+  const res = await fetch('/login', options);
   const resData = await res.json();
   console.log(resData);
 }
