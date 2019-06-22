@@ -18,6 +18,18 @@ api.get("/health", (req, res) => {
 });
 
 api.post("/sms", (req, res) => {
+  if (req.body.Body.toLowerCase() === "end") {
+    req.session.counter = 0;
+    req.session.isHappyPath = true;
+    res.writeHead(200, { 'Content-Type': 'text/xml' })
+    res.end("ok");
+    return;
+  }
+
+  if (req.body.Body.toLowerCase() === "start") {
+    res.end("ok");
+    return;
+  }
   const smsCount = req.session.counter || 0;
   let isHappyPath = req.session.isHappyPath;
   if (smsCount > 0) {
@@ -69,7 +81,7 @@ api.post('/register', (req, res) => {
   User.signUpUser(req.body.phone, req.body.name, req.body.location, req.body.password)
   .then(() => {
     console.log('registered');
-    sms.send("Thank you for joining Sundae. Feel free to text us anytime to journal your day or vent :D",req.body.From);
+    sms.send(`Thank you for joining Sundae. Feel free to text us anytime to journal your day or vent :D Here is how to use. Text us and when you are done send "end" and we will start a new journal for you.`,req.body.phone);
   })
   .catch(err => console.error(err));
 });
