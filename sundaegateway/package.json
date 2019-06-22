@@ -1,0 +1,25 @@
+{
+  "name": "sundaegateway",
+  "version": "0.0.1",
+  "description": "sundae gateway. Serves as an entry point to our API and web",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elbanby/EngHack2019.git"
+  },
+  "keywords": [
+    "sundae"
+  ],
+  "author": "Omar Elbanby, Yi Ren",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elbanby/EngHack2019/issues"
+  },
+  "homepage": "https://github.com/Elbanby/EngHack2019#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
