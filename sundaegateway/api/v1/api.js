@@ -12,9 +12,6 @@ api.use(session({secret: process.env.SESSIONSECRET}));
 api.use(bodyParser.urlencoded({ extended: false }));
 api.use(bodyParser.json());
 
-// Set static files
-// api.use(express.static(path.join(__dirname, '../../assets')));
-
 api.get("/health", (req, res) => {
   sms.send("Hi there", process.env.DEFAULT_PHONE_NUMBER);
   res.end("sundae API status [up]\n")
@@ -22,15 +19,14 @@ api.get("/health", (req, res) => {
 
 api.post("/sms", (req, res) => {
   const smsCount = req.session.counter || 0;
-  let isHappyPath = true;
-
+  let isHappyPath = req.session.isHappyPath;
   if (smsCount > 0) {
     feelings.conversate(isHappyPath, req.body.From , smsCount);
   } else {
     // First message intiae the convorsation and establish path
     var addOn = JSON.parse(req.body.AddOns);
     const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
-    isHappyPath = feelings.determinePath(score, req.body.From, smsCount);
+    req.session.isHappyPath = feelings.determinePath(score, req.body.From, smsCount);
   }
 
   const date = new Date();
@@ -62,7 +58,6 @@ api.post('/login', (req, res) => {
           messages,
         })
       })
-      
     } else {
       res.end('User Not Found');
     }
@@ -74,6 +69,7 @@ api.post('/register', (req, res) => {
   User.signUpUser(req.body.phone, req.body.name, req.body.location, req.body.password)
   .then(() => {
     console.log('registered');
+    sms.send("Thank you for joining Sundae. Feel free to text us anytime to journal your day or vent :D",req.body.From);
   })
   .catch(err => console.error(err));
 });
