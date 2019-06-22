@@ -1,11 +1,11 @@
-<h1 class="mt-4">Dashboard</h1>
-<p class="lead mb-3">Welcome, <%= user.name %></p>
-<p class="lead mb-3">Happy Sundae!</p>
+<h1 class="mt-4 text-center">Dashboard</h1>
+<h2 class="lead mb-3">Welcome, <%= user.name %></h2>
+<h2 class="lead mb-3">Happy Sundae!</h2>
 <ul>
     <% messages.forEach(function(message){ %>
-      <li>
-          You said <br><%= message.text %>
-          at        <%= message.timeStamp %>
+      <li class="list-group-item list-group-item-primary">
+          You said <%= message.text %>
+          At        <%= message.timeStamp %>
       </li>
     <% })%>
 </ul>
