@@ -29,18 +29,35 @@ module.exports.signUpUser = (phone, name, location, password, callback) => {
     name: name,
     location: location,
     password: password,
-  });
+  })
+  .then(_ => console.log("All gotchi!"))
+  .catch(err => console.error(err));
 }
 
-module.exports.writeUserData = (phone, msg, callback) => {
+module.exports.writeUserData = (phone, msg) => {
+  // TODO: validate user exeist
   firebase.database().ref(`users/user:${phone}/message`).child(msg.timeStamp).set({
     text: msg.text,
     timeStamp: msg.timeStamp,
   });
 }
 
-module.exports.getUserMsg = (phone, callback) => {
-  firebase.database().ref(`users/user:${phone}/message`).on('value', callback);
+module.exports.getUserMsgs = (phone) => {
+  // TODO: Check how to handle errors
+  return new Promise((resolve, reject) => {
+    firebase.database().ref(`users/user:${phone}/message`).on('value', (data) => {
+      let messages = data.val();
+      let keys = Object.keys(messages);
+      const newMsgs = keys.map((key) => {
+        return {
+          text: messages[key].text,
+          timeStamp: messages[key].timeStamp,
+        }
+      });
+      console.log(newMsgs, '111s');
+      resolve(newMsgs);
+    });
+  });
 }
 
 // ! TODO
@@ -49,7 +66,12 @@ module.exports.getUsers = (callback) => {
 }
 
 module.exports.findUserbyPhone = (phone, callback) => {
-  firebase.database().ref(`users/user:${phone}`).on(`value`, callback, errData);
+  return new Promise((resolve, reject) => {
+    firebase.database().ref(`users/user:${phone}`).on(`value`, (data) => {
+      let user = data.val();
+      resolve(user);
+    }, (err) => reject(err));
+  });
 }
 
  // test
@@ -59,20 +81,4 @@ const gotDataforUsers = (data) => {
   let keys = Object.keys(users);
   console.log(keys);
   return keys
-}
-
-const gotData = (data) => {
-  // console.log(data.val());
-  let user = data.val();
-  console.log(user);
-  callback(user);
-//   let keys = Object.keys(users);
-//   const newUser = {
-//       name: user[]
-//   }
-}
-
-const errData = (err) => {
-  console.log(err);
-  console.log('err');
 }

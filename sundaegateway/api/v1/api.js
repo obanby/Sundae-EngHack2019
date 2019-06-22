@@ -7,11 +7,10 @@ const User = require("../../model/user");
 
 const api = express.Router();
 api.use(bodyParser.urlencoded({ extended: false }));
+api.use(bodyParser.json());
 
 // Set static files
 api.use(express.static(path.join(__dirname, '../../assets')));
-
-api.use(bodyParser.json());
 
 api.get("/health", (req, res) => {
   sms.send("Hi there", process.env.DEFAULT_PHONE_NUMBER);
@@ -22,50 +21,42 @@ api.post("/sms", (req, res) => {
   var addOn = JSON.parse(req.body.AddOns);
   const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
   feelings.determinePath(score, req.body.From);
-  // do database stuff to store message
-  // User.writeUserData(phone, msg);
-  res.writeHead(200, { 'Content-Type': 'text/xml' })
-  res.end("ok");
-});
-
-api.post('/login', (req, res) => {
-  User.findUserbyPhone(req.body.phone, (user) => {
-    if (user) {
-      if (req.body.password == user.password) {
-        res.json(' login success');
-      } else {
-        res.json('login failed');
-      } 
-    } else {
-      res.end('User Not Found');
-    }
-    
+  const date = new Date();
+  const msg = {
+    text: req.body.Body,
+    timeStamp: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+  }
+  User.writeUserData(req.body.From, msg)
+  .then(_ => {
+    res.writeHead(200, { 'Content-Type': 'text/xml' })
+    res.end("ok");
   })
-});
-
-api.get('/data', async (req, res, next) => {
-  // User.getUserMsg('5199999', (err, data) => {
-  //   if (err) {
-  //     console.log(err);
-  //     res.end();
-  //     return;
-  //   }
-  //   res.json(data);
-  // });
-  User.getUserMsg('519991990', (data) => {
-    let messages = data.val();
-    let keys = Object.keys(messages);
-    const newMsgs = keys.map((key) => {
-      return {
-        text: messages[key].text,
-        timeStamp: messages[key].timeStamp,
-      }
-    });
-    console.log(newMsgs, '111s');
-    res.json(newMsgs);
+  .catch(_ => {
+    res.writeHead(500, { 'Content-Type': 'text/xml' })
+    res.end("error");
   });
 });
 
+api.post('/login', (req, res) => {
+  User.findUserbyPhone(req.body.phone)
+  .then(user => {
+    if (user) {
+      (req.body.password == user.password) ? res.json(' login success') : res.json('login failed');
+    } else {
+      res.end('User Not Found');
+    }
+  })
+  .catch(err => console.error(err));
+});
+
+api.get('/data', (req, res, next) => {
+  User.getUserMsgs('519991990')
+  .then(result => {
+    console.log(result);
+    res.json(result);
+  })
+  .catch(err => console.error(err));
+});
 
 api.get('*', (req, res) => {
   res.sendFile(__dirname, '../../assets/index.html');
