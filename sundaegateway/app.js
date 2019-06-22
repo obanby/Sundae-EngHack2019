@@ -1,10 +1,14 @@
 const express = require("express");
+const dotenv = require("dotenv");
+
+const isConfigLoaded = dotenv.config();
+
+if (isConfigLoaded.error) {
+  throw result.error
+}
+
 const api = require("./api/v1/api");
-
-require('dotenv').config();
-
 // TODO: expose static files  && do your web stuff!
-
 const app = express();
 
 
