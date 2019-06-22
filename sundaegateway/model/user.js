@@ -23,7 +23,7 @@ firebase.initializeApp(firebaseConfig);
 // Get a reference to the database service
 var database = firebase.database();
 
-module.exports.signUpUser = (phone, name, location, password) => {
+module.exports.signUpUser = (phone, name, location, password, callback) => {
   firebase.database().ref(`users/user:${phone}`).set({
     phone: phone,
     name: name,
@@ -32,38 +32,24 @@ module.exports.signUpUser = (phone, name, location, password) => {
   });
 }
 
-module.exports.writeUserData = (phone, msg) => {
+module.exports.writeUserData = (phone, msg, callback) => {
   firebase.database().ref(`users/user:${phone}/message`).child(msg.timeStamp).set({
     text: msg.text,
     timeStamp: msg.timeStamp,
   });
 }
 
-module.exports.getUserMsg = (phone) => {
-  firebase.database().ref(`users/user:${phone}/message`).on('value', (data) => {
-    // const msg = value.val();
-    // console.log(msg);
-    let messages = data.val();
-    let keys = Object.keys(messages);
-    // console.log(keys);
-    const newMsgs = keys.map((key) => {
-      return {
-        text: messages[key].text,
-        timeStamp: messages[key].timeStamp,
-      }
-    });
-    console.log(newMsgs);
-    return newMsgs;
-  });
+module.exports.getUserMsg = (phone, callback) => {
+  firebase.database().ref(`users/user:${phone}/message`).on('value', callback);
 }
 
 // ! TODO
-module.exports.getUsers = () => {
+module.exports.getUsers = (callback) => {
   firebase.database().ref('users').on(`value`, gotDataforUsers, errData);
 }
 
-module.exports.findUserbyPhone = (phone) => {
-  firebase.database().ref(`users/user:${phone}`).on(`value`, gotData, errData);
+module.exports.findUserbyPhone = (phone, callback) => {
+  firebase.database().ref(`users/user:${phone}`).on(`value`, callback, errData);
 }
 
  // test
@@ -79,7 +65,7 @@ const gotData = (data) => {
   // console.log(data.val());
   let user = data.val();
   console.log(user);
-  return user;
+  callback(user);
 //   let keys = Object.keys(users);
 //   const newUser = {
 //       name: user[]
