@@ -23,6 +23,7 @@ api.post("/sms", (req, res) => {
   const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
   feelings.determinePath(score, req.body.From);
   // do database stuff to store message
+  // User.writeUserData(phone, msg);
   res.writeHead(200, { 'Content-Type': 'text/xml' })
   res.end("ok");
 });
