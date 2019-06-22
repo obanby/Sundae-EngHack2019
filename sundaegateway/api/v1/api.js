@@ -22,7 +22,7 @@ api.post("/sms", (req, res) => {
     req.session.counter = 0;
     req.session.isHappyPath = true;
     res.writeHead(200, { 'Content-Type': 'text/xml' })
-    res.end("ok");
+    res.end("okay");
     return;
   }
 
@@ -30,21 +30,24 @@ api.post("/sms", (req, res) => {
     res.end("ok");
     return;
   }
-  const smsCount = req.session.counter || 0;
+  let smsCount = req.session.counter || 0;
   let isHappyPath = req.session.isHappyPath;
+  let addOn = JSON.parse(req.body.AddOns);
+  let sentimentValue = addOn.results.marchex_sentiment.result.result;
+  let score = feelings.sentimentScore(sentimentValue);
+
   if (smsCount > 0) {
     feelings.conversate(isHappyPath, req.body.From , smsCount);
   } else {
     // First message intiae the convorsation and establish path
-    var addOn = JSON.parse(req.body.AddOns);
-    const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
     req.session.isHappyPath = feelings.determinePath(score, req.body.From, smsCount);
   }
 
   const date = new Date();
   const msg = {
     text: req.body.Body,
-    timeStamp: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    timeStamp: `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`,
+    sentimentValue: sentimentValue
   }
   User.writeUserData(req.body.From, msg)
   .then(_ => {

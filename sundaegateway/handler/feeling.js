@@ -29,7 +29,11 @@ function determinePath(sentimentScore, pNum, smsCount) {
 
 sentiment.on("happyPath", (pNum, smsCount)=> {
   if (smsCount > happyPath.length - 1 ) return;
-  sms.send(happyPath[smsCount], pNum);
+  async function send() {
+    const msg = await getHappyConversation(smsCount);
+    sms.send(msg, pNum);
+  }
+  send();
 });
 
 sentiment.on("sadPath", (pNum, smsCount)=> {
@@ -40,7 +44,11 @@ sentiment.on("sadPath", (pNum, smsCount)=> {
     sms.send(sadPath[sadPath.length - 1], pNum);
     return;
   }
-  sms.send(sadPath[smsCount], pNum);
+  async function send() {
+    const msg = await getSadPathConversation(smsCount);
+    sms.send(msg, pNum);
+  }
+  send();
 });
 
 function conversate(isHappyPath, pNum ,smsCount) {
@@ -49,6 +57,22 @@ function conversate(isHappyPath, pNum ,smsCount) {
     return;
   }
   sentiment.emit("sadPath", pNum, smsCount);
+}
+
+function getHappyConversation(index) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(happyPath[index])
+      }, 0);
+    });
+}
+
+function getSadPathConversation(index) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(sadPath[index])
+    }, 0);
+  });
 }
 
 module.exports = {

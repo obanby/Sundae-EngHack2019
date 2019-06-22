@@ -46,6 +46,7 @@ module.exports.writeUserData = (phone, msg) => {
   return firebase.database().ref(`users/user:${phone}/message`).push({
     text: msg.text,
     timeStamp: msg.timeStamp,
+    sentimentValue: msg.sentimentValue
   });
 }
 
