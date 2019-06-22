@@ -3,3 +3,4 @@ sundaegateway/.env
 sundaegateway/package-lock.json
 .idea/workspace.xml
 .idea/*
+.gitignore
