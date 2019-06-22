@@ -1,1 +1,3 @@
-node_modules
+sundaegateway/node_modules/
+sundaegateway/.env
+sundaegateway/package-lock.json
