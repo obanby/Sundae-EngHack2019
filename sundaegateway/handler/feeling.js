@@ -2,7 +2,7 @@ const sentiment = require("../events/sentiment");
 const sms = require("../twilio/sms");
 
 const happyPath = [
-  "You seem to be feeling positive today. Whats up?",
+  "You seem to be feeling positive today. Whats up?", "Did you workout today?", "What did you eat today?",
   "thanks, noted! keep it up!",
   "Here is a quote for you, hope you like it"
 ]
