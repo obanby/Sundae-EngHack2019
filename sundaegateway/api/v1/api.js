@@ -7,7 +7,7 @@ const api = express.Router();
 api.use(bodyParser.urlencoded({ extended: false }));
 
 api.get("/health", (req, res) => {
-  sms.send("Hi there");
+  sms.send("Hi there", process.env.DEFAULT_PHONE_NUMBER);
   res.end("sundae API status [up]\n")
 });
 
