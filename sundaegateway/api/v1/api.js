@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require('express-session');
 const path = require('path');
 const bodyParser = require('body-parser');
 const sms = require("../../twilio/sms");
@@ -6,6 +7,8 @@ const feelings = require("../../handler/feeling");
 const User = require("../../model/user");
 
 const api = express.Router();
+api.use(session({secret: process.env.SESSIONSECRET}));
+
 api.use(bodyParser.urlencoded({ extended: false }));
 api.use(bodyParser.json());
 
@@ -18,9 +21,18 @@ api.get("/health", (req, res) => {
 });
 
 api.post("/sms", (req, res) => {
-  var addOn = JSON.parse(req.body.AddOns);
-  const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
-  feelings.determinePath(score, req.body.From);
+  const smsCount = req.session.counter || 0;
+  let isHappyPath = true;
+
+  if (smsCount > 0) {
+    feelings.conversate(isHappyPath, req.body.From , smsCount);
+  } else {
+    // First message intiae the convorsation and establish path
+    var addOn = JSON.parse(req.body.AddOns);
+    const score = feelings.sentimentScore(addOn.results.marchex_sentiment.result.result);
+    isHappyPath = feelings.determinePath(score, req.body.From, smsCount);
+  }
+
   const date = new Date();
   const msg = {
     text: req.body.Body,
@@ -35,6 +47,7 @@ api.post("/sms", (req, res) => {
     res.writeHead(500, { 'Content-Type': 'text/xml' })
     res.end("error");
   });
+  req.session.counter = smsCount + 1;
 });
 
 api.post('/login', (req, res) => {
@@ -49,7 +62,7 @@ api.post('/login', (req, res) => {
   .catch(err => console.error(err));
 });
 
-api.get('/data', (req, res, next) => {
+api.get('/data/:id', (req, res, next) => {
   User.getUserMsgs('519991990')
   .then(result => {
     console.log(result);

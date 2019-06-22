@@ -36,7 +36,7 @@ module.exports.signUpUser = (phone, name, location, password, callback) => {
 
 module.exports.writeUserData = (phone, msg) => {
   // TODO: validate user exeist
-  firebase.database().ref(`users/user:${phone}/message`).child(msg.timeStamp).set({
+  return firebase.database().ref(`users/user:${phone}/message`).child(msg.timeStamp).set({
     text: msg.text,
     timeStamp: msg.timeStamp,
   });
