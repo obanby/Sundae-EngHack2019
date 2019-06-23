@@ -1,4 +1,12 @@
 <canvas id="myChart" width="400" height="200"></canvas>
+<div style='text-align:center;'>
+<a  class="btn btn-secondary" herf=" " onclick="goBack()">dashboard</a>
+</div>
+<script>
+function goBack() {
+  window.history.back()
+}
+</script>
 <script>
     let ctx =  document.getElementById('myChart').getContext('2d');
         function compare(a,b){

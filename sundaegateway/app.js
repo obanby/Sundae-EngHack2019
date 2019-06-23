@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 const dotenv = require("dotenv");
 
@@ -15,7 +16,7 @@ const app = express();
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
-
+app.use('/static', express.static('public'));
 app.use("/api/v1", api);
 
 const PORT = process.env.PORT || 3000;
