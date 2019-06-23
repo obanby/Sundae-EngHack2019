@@ -26,10 +26,10 @@ var database = firebase.database();
 module.exports.signUpUser = (phone, name, location, password, callback) => {
   return this.findUserbyPhone(phone).then((user) => {
     if (!user) {
-      return firebase.database().ref(`users/user:${phone}`).push({
+      return firebase.database().ref(`users/user:${phone}`).set({
         phone: phone,
         name: name,
-        messages: 1,
+        // messages: 1,
         // location: location,
         password: password,
       })
@@ -55,14 +55,14 @@ module.exports.getUserMsgs = (phone) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref(`users/user:${phone}/message`).on('value', (data) => {
       let messages = data.val();
-      let keys = Object.keys(messages);
+      let keys = Object.keys(messages); // ! err handle
       const newMsgs = keys.map((key) => {
         return {
           text: messages[key].text,
           timeStamp: messages[key].timeStamp,
+          sentimentValue: messages[key].sentimentValue,
         }
       });
-      console.log(newMsgs, '111s');
       resolve(newMsgs);
     });
   });

@@ -112,10 +112,12 @@ api.get('/logout', (req, res) => {
 });
 
 api.get('/data/:phone', (req, res, next) => {
-  User.getUserMsgs('519991990')
+  const phone = req.params.phone;
+  User.getUserMsgs(phone)
   .then(result => {
-    console.log(result);
-    res.json(result);
+    res.render('stats', {
+      messages: result,
+    })
   })
   .catch(err => console.error(err));
 });
