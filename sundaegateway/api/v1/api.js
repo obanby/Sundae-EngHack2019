@@ -65,14 +65,18 @@ api.post('/login', (req, res) => {
   User.findUserbyPhone(req.body.phone)
   .then(user => {
     if (user) {
-      (req.body.password == user.password) ? console.log(' login success') : res.json('login failed');
-      User.getUserMsgs(user.phone)
-      .then((messages) => {
-        res.render('dashboard', {
-          user: user,
-          messages,
-        })
-      })
+      if (req.body.password == user.password){
+        console.log(' login success');
+        User.getUserMsgs(user.phone)
+          .then((messages) => {
+            res.render('dashboard', {
+              user: user,
+              messages,
+            })
+          })
+      } else {
+        res.json('login failed');
+      }
     } else {
       res.end('User Not Found');
     }
