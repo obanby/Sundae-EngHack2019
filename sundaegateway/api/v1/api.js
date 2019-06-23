@@ -87,7 +87,7 @@ api.post('/login', (req, res) => {
 api.post('/register', (req, res) => {
   User.signUpUser(req.body.phone, req.body.name, req.body.location, req.body.password)
   .then(() => {
-    console.log('registered');
+    res.redirect('/api/v1/login');
     sms.send(`Thank you for joining Sundae. Feel free to text us anytime to journal your day or vent :D Here is how to use. Text us and when you are done send "end" and we will start a new journal for you.`,req.body.phone);
   })
   .catch(err => console.error(err));
