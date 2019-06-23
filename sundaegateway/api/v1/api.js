@@ -107,7 +107,6 @@ api.get('/register', (req, res) => res.render('register'));
 
 // Logout
 api.get('/logout', (req, res) => {
-  // req.logout();
   res.redirect('/api/v1/login');
 });
 
@@ -122,8 +121,5 @@ api.get('/data/:phone', (req, res, next) => {
   .catch(err => console.error(err));
 });
 
-// api.get('*', (req, res) => {
-//   res.sendFile(__dirname, '../../assets/index.html');
-// });
 
 module.exports = api;
