@@ -1,6 +1,9 @@
 <h1 class="mt-4 text-center">Dashboard</h1>
-<h2 class="lead mb-3">Welcome, <%= user.name %></h2>
-<h2 class="lead mb-3">Happy Sundae!</h2>
+<h2 class="lead mb-3 text-center">Welcome, <%= user.name %></h2>
+<h2 class="lead mb-3 text-center">Happy Sundae!</h2>
+
+<a class="lead mb-3 text-center" href="/api/v1/data/<%= user.phone %>">stats</a>
+
 <ul>
     <% messages.forEach(function(message){ %>
       <li class="list-group-item list-group-item-primary">
@@ -9,4 +12,5 @@
       </li>
     <% })%>
 </ul>
+
 <a href="/api/v1/logout" class="btn btn-secondary">Logout</a>
