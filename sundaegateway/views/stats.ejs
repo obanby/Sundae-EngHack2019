@@ -5,18 +5,15 @@
             return a.timeStamp - b.timeStamp;
         }
         let messages = <%- JSON.stringify(messages); %>
-        console.log(messages);
         messages.sort(compare);
         var a = [];
         messages.forEach(element =>{
                 a.push(element.timeStamp);
         });
         var d = [];
-        console.log(a);
         messages.forEach(element =>{
                 d.push(element.sentimentValue);
         });
-        console.log(d);
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {

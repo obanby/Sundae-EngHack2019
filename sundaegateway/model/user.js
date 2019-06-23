@@ -55,6 +55,7 @@ module.exports.getUserMsgs = (phone) => {
   return new Promise((resolve, reject) => {
     firebase.database().ref(`users/user:${phone}/message`).on('value', (data) => {
       let messages = data.val();
+      if (!messages) reject('msgs not found');
       let keys = Object.keys(messages); // ! err handle
       const newMsgs = keys.map((key) => {
         return {
