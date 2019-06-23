@@ -8,7 +8,7 @@ async function send(msg, number) {
   try {
     const msgId  = await client.messages.create({
         to:   number,
-        from: "+16474902192",
+        from: process.env.PHONE,
         body: msg
       });
   } catch(err) {

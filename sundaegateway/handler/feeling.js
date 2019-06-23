@@ -7,7 +7,7 @@ const happyPath = [
   "Did you workout today by any chance?",
   "What type of food did you have today?",
   "thanks, noted! keep it up!",
-  "Here is a quote for you, hope you like it"
+  "Here is a wish for you: hope you win the hackathon"
 ]
 
 const sadPath = [

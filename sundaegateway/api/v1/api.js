@@ -27,6 +27,7 @@ api.post("/sms", (req, res) => {
   }
 
   if (req.body.Body.toLowerCase() === "start") {
+    res.writeHead(200, { 'Content-Type': 'text/xml' })
     res.end("ok");
     return;
   }
