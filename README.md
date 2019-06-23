@@ -13,23 +13,24 @@ The user starts off by registering with their phone number on the web portal. Af
 On the web portal, we make a way for the user to access all their records like they would with a normal journal. In addition to that, we also provide them with some statistics about their journal over a certain period of time!
 
 ## How we built it
-Omar
-Challenges we ran into
+
+![alt text](https://github.com/Elbanby/EngHack2019/blob/master/system_architecture.png)
+
+
+## Challenges we ran into
 In hindsight, there were a lot of challenges that we ran into as a team. For the ML aspect, the first challenge was NLP. Initially, we hoped to classify texts into multiple categories such as anxious, calm, depressed et cetera using Naive Bayes. However, contrary to our hypothesis, we were not able to find a suitably large dataset with labelling/trained model and creating a dataset from scratch would take too long.
 
 Another challenge we ran into was using python for Firebase access. It turns out that Python has no way to create listeners for objects stored in Firebase database. Because we couldn't find this issue earlier, we had to rewrite/simplify all our Recommendation code in NodeJS.
 
-//TODO
+Moreover we ran into few challanges with nodeJS asynch model as well. Since we were trying to load test the system on local machines. We ran into some un-expected behaviour, that took some serious debugging. 
 
 ## Accomplishments that we're proud of
 We are very proud of all the work that we have been able to accomplish. At the end of the day, we were happy about firstly being able to do NLP on the text. Additionally, while there is still work to be done on the chatbot side, we are proud of the recommendations that our system is able to make to the user.
 
-//TODO
-
 ## What we learned
 We learned a lot about various parts of our tech stack while working on this. To start off, we learned a great deal about Twilio and fully explored its capabilities. We also learned a ton about NLP and Recommendation Engines.
 
-//TODO
+We learned a lot about nodeJS design patterns, error handling and event based programming principles. We were really passionate about architecture and how we model our data and API, which lead to more learning along the way.
 
 ## What's next for Sundae
 Recommendation Engine: Making the recommendation of the event smarter
