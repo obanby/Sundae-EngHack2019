@@ -41,7 +41,9 @@ Chatbot: Make the conversational agent more human
 
 Architecture: Improve our platform and system architecture
 
-Front-End : Make it more welcoming
+Front-End : Make it more welcoming and user friendly
+
+privacy issues: keep the user info/messages confidential, 
 
 Potential features for the UI and geolocation
 
