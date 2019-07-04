@@ -2,6 +2,9 @@
 
  [Demo](https://sundae-d9273.appspot.com/api/v1)
  
+ Submitted to [EngHack 2019](https://devpost.com/software/sundae)
+ Created by Omar Elbanby, Yizhi Sun, Aditya Sharma and Yi Ren
+ 
 ## Inspiration
 Mental health has been a huge issue that something we as a society generally have not given enough attention to for quite a while now. This has only gotten worse by the intrusion of social media into our lives and the introduction of everything digital in our lives.
 
