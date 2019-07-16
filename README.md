@@ -2,7 +2,7 @@
 
  [Demo](https://sundae-d9273.appspot.com/api/v1)
  
- Submitted to [EngHack 2019](https://devpost.com/software/sundae)
+ WINNER of a sponsor prize (Best Domain Registered with Domain.com) of [EngHack 2019](https://devpost.com/software/sundae)
  Created by Omar Elbanby, Yizhi Sun, Aditya Sharma and Yi Ren
  
 ## Inspiration
